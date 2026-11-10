@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b35">
+<title>伊勢・鳥羽 家族旅行｜旅のしおり</title>
+<!-- Leaflet CSS for Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+:root{--green:#173b35;--sage:#dce8df;--cream:#f7f4ec;--ink:#26332f;--muted:#68756f;--gold:#b58b4a;--white:#ffffff}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7;font-size:15px}
+a{color:inherit}.hero{min-height:360px;padding:50px 20px 40px;color:#fff;background:linear-gradient(135deg,rgba(15,49,43,.92),rgba(23,59,53,.78)),radial-gradient(circle at 80% 20%,#9eaa8c,transparent 35%);display:flex;align-items:end}
+.hero-inner{width:min(760px,100%);margin:auto}.eyebrow{letter-spacing:.22em;font-size:12px;color:#d8c69e;font-weight:bold}.hero h1{font-family:Georgia,"Yu Mincho",serif;font-size:clamp(32px,7vw,52px);line-height:1.25;font-weight:500;margin:12px 0}.hero p{color:#e3e9e2;margin:6px 0;font-size:15px}
+.wrap{width:min(760px,calc(100% - 24px));margin:auto}.intro{margin-top:-20px;position:relative;background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #24352c12}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.chip{background:var(--sage);color:var(--green);padding:6px 12px;border-radius:30px;font-size:13px;font-weight:600}
+nav{position:sticky;top:0;z-index:1000;background:#f7f4ecee;backdrop-filter:blur(10px);border-bottom:1px solid #e4e0d5;margin-top:20px}
+nav .wrap{display:flex;gap:8px;padding:10px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}nav a{text-decoration:none;white-space:nowrap;padding:9px 16px;border-radius:30px;font-size:14px;background:#fff;font-weight:600;box-shadow:0 2px 6px #0000000d;color:var(--green)}
+section{padding:32px 0 16px}.section-kicker{color:var(--gold);font-size:12px;letter-spacing:.2em;font-weight:700}h2{font-family:Georgia,"Yu Mincho",serif;font-weight:500;font-size:28px;color:var(--green);margin:4px 0 16px}.day-note{color:var(--muted);font-size:14px;margin-top:-10px;line-height:1.6}
+.timeline{border-left:2px solid #c9d5ca;margin:20px 0 0 10px;padding-left:20px}.event{position:relative;padding:0 0 26px}.event:before{content:"";position:absolute;left:-27px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:3px solid var(--cream)}.time{font-size:13px;font-weight:800;color:var(--gold);letter-spacing:.04em}.event h3{margin:4px 0 6px;font-size:17px;color:var(--green)}.event p{margin:0 0 6px;color:var(--ink);font-size:14px;line-height:1.6}.event ul{margin:4px 0 8px;padding-left:18px;color:var(--muted);font-size:13.5px}.event li{margin-bottom:4px}
+.card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 18px #24352c09;border:1px solid #eef2ef}.card h3{margin:0 0 8px;color:var(--green);font-size:18px}.btn-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{display:inline-flex;align-items:center;padding:9px 15px;border-radius:30px;background:var(--sage);color:var(--green);font-size:13px;font-weight:600;text-decoration:none;transition:background .2s}.btn:active{background:#c4d8ca}.btn-insta{background:#fdf0f5;color:#c13584}
+.notice{border-left:4px solid var(--gold);background:#f0eadc;padding:15px;border-radius:0 12px 12px 0;font-size:14px;margin:16px 0;line-height:1.6}.muted{color:var(--muted);font-size:13.5px}
+.grid-2{display:grid;grid-template-columns:1fr;gap:14px}@media(min-width:600px){.grid-2{grid-template-columns:1fr 1fr}}
+.meta-info{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}.meta-info div{margin-bottom:3px}
+#map{height:360px;width:100%;border-radius:16px;box-shadow:0 4px 18px #24352c12;margin-top:12px;z-index:1}
+.map-tabs{display:flex;gap:8px;margin-bottom:10px}.map-tab{flex:1;padding:10px;text-align:center;background:#fff;border-radius:10px;font-size:14px;font-weight:bold;color:var(--muted);cursor:pointer;border:1px solid #e4e0d5}.map-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+footer{text-align:center;padding:40px 16px 60px;color:var(--muted);font-size:13px} .footer-title{font-family:Georgia,serif;color:var(--green);font-size:24px}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+<div class="eyebrow">FAMILY TRIP • MIE, JAPAN</div>
+<h1>伊勢・鳥羽<br>家族旅行</h1>
+<p>2026.11.14 SAT — 11.15 SUN</p>
+<p>みんなで楽しむ、伊勢と鳥羽の2日間。</p>
+</div></header>
+
+<main class="wrap">
+<div class="intro">
+<strong>旅のしおり</strong>
+<p style="margin:6px 0 0;color:#68756f;font-size:14px">集合・移動・観光の予定をまとめた家族用ページです。時間は道路状況や当日の混雑に合わせて調整してください。</p>
+<div class="chips"><span class="chip">6名</span><span class="chip">車移動</span><span class="chip">宿泊：鳥羽オーシャンリゾート</span></div>
+</div>
+</main>
+
+<nav><div class="wrap"><a href="#day1">1日目</a><a href="#day2">2日目</a><a href="#map-section">ルートマップ</a><a href="#sa-section">休憩SA候補</a><a href="#spots">スポット詳細</a><a href="#hotel">宿泊先</a><a href="#memo">メモ</a></div></nav>
+
+<main class="wrap">
+<!-- 1日目 -->
+<section id="day1">
+<div class="section-kicker">DAY 01 · NOV 14 (SAT)</div><h2>伊勢神宮とおかげ横丁</h2>
+<p class="day-note">日高工業所から出発して、伊勢をめぐり鳥羽へ。</p>
+<div class="timeline">
+<div class="event">
+<div class="time">03:00</div><h3>日高工業所 出発</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=日高工業所">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">05:45</div><h3>湾岸長島PA 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=65">PA公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=湾岸長島PA+上り">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">05:45〜06:15</div><h3>トイレ・化粧</h3><p>パウダールームは6:00から利用可能。</p>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=湾岸長島PA+上り">湾岸長島PA地図 ↗</a></div>
+</div>
+<div class="event"><div class="time">06:15</div><h3>湾岸長島PA 出発</h3></div>
+<div class="event"><div class="time">07:30</div><h3>あそらの茶屋 到着・朝食</h3><ul><li>到着したら順番待ちの発券をする</li><li>待ち時間がありそうなら、先に伊勢神宮を参拝する</li></ul><div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://asoranochaya.com/">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=あそらの茶屋">地図を開く ↗</a></div></div>
+<div class="event">
+<div class="time">08:30〜09:00</div><h3>伊勢神宮 外宮参拝</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.isejingu.or.jp/about/geku/">外宮公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢神宮+外宮">地図を開く ↗</a></div>
+</div>
+<div class="event"><div class="time">09:00</div><h3>外宮 出発</h3></div>
+<div class="event">
+<div class="time">09:15</div><h3>伊勢神宮 内宮 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢神宮+内宮">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">09:15〜10:45</div><h3>伊勢神宮 内宮参拝</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.isejingu.or.jp/about/naiku/">内宮公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢神宮+内宮">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">10:45〜14:30</div><h3>おはらい町・おかげ横丁で昼食＆散策</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://okageyokocho.com/">おかげ横丁公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=おかげ横丁">地図を開く ↗</a></div>
+</div>
+<div class="event"><div class="time">14:30</div><h3>内宮 出発</h3></div>
+<div class="event">
+<div class="time">15:00</div><h3>鳥羽オーシャンリゾートホテル 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=鳥羽オーシャンリゾート">地図を開く ↗</a></div>
+</div>
+</div>
+</section>
+
+<!-- 2日目 -->
+<section id="day2">
+<div class="section-kicker">DAY 02 · NOV 15 (SUN)</div><h2>カモメの散歩道・夫婦岩・帰路</h2>
+<p class="day-note">朝の海の散歩から始まり、二見エリア散策・昼食を経て山梨へ帰宅。</p>
+<div class="timeline">
+<div class="event"><div class="time">06:00</div><h3>起床</h3></div>
+<div class="event"><div class="time">06:10</div><h3>ホテル出発</h3><p>朝の散歩に行く人のみ（※雨天の場合は中止も検討）</p></div>
+<div class="event">
+<div class="time">06:20</div><h3>カモメの散歩道 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=カモメの散歩道+鳥羽">地図を開く ↗</a></div>
+</div>
+<div class="event"><div class="time">06:25</div><h3>日の出</h3></div>
+<div class="event">
+<div class="time">06:20〜06:50</div><h3>カモメの散歩道を散歩</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.toba.or.jp/">鳥羽市観光協会 ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=カモメの散歩道+鳥羽">地図を開く ↗</a></div>
+</div>
+<div class="event"><div class="time">07:00</div><h3>ホテル到着</h3></div>
+<div class="event"><div class="time">07:30</div><h3>ホテルで朝食</h3></div>
+<div class="event">
+<div class="time">09:00</div><h3>鳥羽オーシャンリゾートホテル 出発</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=鳥羽オーシャンリゾート">ホテル地図 ↗</a></div>
+</div>
+<div class="event">
+<div class="time">09:30</div><h3>伊勢夫婦岩めおと横丁 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://ise-meotoiwa.jp/">公式サイト ↗</a><a class="btn-insta btn" target="_blank" rel="noopener" href="https://www.instagram.com/meoto_yokocho/">Instagram ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢夫婦岩めおと横丁">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">09:30〜10:00</div><h3>お土産などの買い物</h3><p>館内のお土産ショップを自由に見て回る</p>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://ise-meotoiwa.jp/shop/">フロアマップ・店舗情報 ↗</a></div>
+</div>
+<div class="event">
+<div class="time">10:00〜10:30</div><h3>苔玉作り体験</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://ise-meotoiwa.jp/experience/">体験・予約情報 ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢夫婦岩めおと横丁">地図を開く ↗</a></div>
+</div>
+<div class="event">
+<div class="time">10:45〜11:45</div><h3>夫婦岩・二見興玉神社</h3><ul><li>めおと横丁から徒歩約5分</li><li>夫婦岩を見学・二見興玉神社を参拝</li></ul>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://futamiokitama-jinja.or.jp/">神社公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=二見興玉神社">地図を開く ↗</a></div>
+</div>
+<div class="event"><div class="time">12:00</div><h3>めおと横丁 出発</h3></div>
+<div class="event"><div class="time">12:15〜13:00</div><h3>めし処 こさくで昼食</h3><p>めおと横丁から車で約15分（営業時間 11:00〜14:30 LO 14:00）</p><div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://kosaku.net/">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=めし処+こさく+二見">地図を開く ↗</a></div></div>
+<div class="event"><div class="time">13:00</div><h3>こさく 出発</h3></div>
+<div class="event">
+<div class="time">13:00〜19:30</div><h3>山梨方面へ帰宅</h3><p>途中でトイレ休憩・買い物を挟みつつ山梨へ移動。（※立ち寄りSA候補）</p>
+<div class="btn-group">
+<a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=60">御在所SA ↗</a>
+<a class="btn" target="_blank" rel="noopener" href="https://kariya-oasis.com/">刈谷ハイウェイオアシス ↗</a>
+<a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=28">浜名湖SA ↗</a>
+<a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=32">牧之原SA ↗</a>
+</div>
+</div>
+<div class="event">
+<div class="time">19:30</div><h3>日高工業所 到着</h3>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=日高工業所">地図を開く ↗</a></div>
+</div>
+</div>
+<div class="notice">⚠️ <strong>注意事項（帰路の移動時間について）：</strong><br>こさく（13:00発）から日高工業所（19:30着）までの所要時間は約6時間30分です。日曜日午後の高速道路（東名・新東名・中央道など）は渋滞が発生しやすいため、状況に応じてSAで適宜こまめな休憩を取りながら安全運転でお帰りください。</div>
+</section>
+
+<!-- ルートマップ -->
+<section id="map-section">
+<div class="section-kicker">MAP</div><h2>旅行ルートマップ</h2>
+<div class="map-tabs">
+<div class="map-tab active" onclick="switchMapDay(1)">1日目のルート</div>
+<div class="map-tab" onclick="switchMapDay(2)">2日目のルート</div>
+</div>
+<div id="map"></div>
+</section>
+
+<!-- サービスエリア候補 -->
+<section id="sa-section">
+<div class="section-kicker">BREAK SPOTS</div><h2>帰り道の休憩SA・PA候補</h2>
+<p class="muted">※すべてに立ち寄るわけではなく、当日の進行状況や疲労に合わせて選択します。</p>
+<div class="grid-2">
+<div class="card">
+<h3>御在所SA（上り）</h3>
+<p class="muted">伊勢道から東名阪道に入って最初の大型SA。三重のお土産（赤福・伊勢うどん）や名古屋めしも充実。</p>
+<div class="meta-info"><div>📍 住所：三重県四日市市山城町</div><div>🌐 緯度経度：35.0319, 136.5758</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=60">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=御在所SA+上り">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>刈谷ハイウェイオアシス</h3>
+<p class="muted">伊勢湾岸道沿いの超大型複合施設。観覧車や天然温泉、えびせんべいの里など見どころ満載。</p>
+<div class="meta-info"><div>📍 住所：愛知県刈谷市東境町吉野55</div><div>🌐 緯度経度：35.0425, 137.0346</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://kariya-oasis.com/">公式サイト ↗</a><a class="btn-insta btn" target="_blank" rel="noopener" href="https://www.instagram.com/kariya_highway_oasis/">Instagram ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=刈谷ハイウェイオアシス">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>浜名湖SA（上下集約）</h3>
+<p class="muted">東名高速の絶景SA。浜名湖を一望できるロケーションで、うなぎパイや浜松餃子が名物。</p>
+<div class="meta-info"><div>📍 住所：静岡県浜松市浜名区三ヶ日町佐久米</div><div>🌐 緯度経度：34.7797, 137.5539</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=28">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=浜名湖SA">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>牧之原SA（上り）</h3>
+<p class="muted">静岡のお茶どころに位置する広々としたSA。深蒸し茶や抹茶スイーツなど静岡茶のお土産が豊富。</p>
+<div class="meta-info"><div>📍 住所：静岡県牧之原市静波</div><div>🌐 緯度経度：34.7570, 138.2045</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://sapa.c-nexco.co.jp/sapa?sapaid=32">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=牧之原SA+上り">Googleマップ ↗</a></div>
+</div>
+</div>
+</section>
+
+<!-- スポット詳細 -->
+<section id="spots">
+<div class="section-kicker">SPOT INFO</div><h2>立ち寄りスポット詳細</h2>
+<div class="grid-2">
+<div class="card">
+<h3>カモメの散歩道</h3>
+<p class="muted">鳥羽港沿いに整備された海風が心地よい遊歩道。朝の散歩や日の出の鑑賞にぴったり。</p>
+<div class="meta-info"><div>📍 住所：三重県鳥羽市鳥羽1丁目</div><div>🌐 緯度経度：34.4845, 136.8450</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.toba.or.jp/">鳥羽市観光協会 ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=カモメの散歩道+鳥羽">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>伊勢夫婦岩めおと横丁</h3>
+<p class="muted">二見興玉神社に隣接する屋内型ショッピングモール。伊勢志摩の体験やお土産・グルメが集合。</p>
+<div class="meta-info"><div>📍 住所：三重県伊勢市二見町江580</div><div>🌐 緯度経度：34.5085, 136.7876</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://ise-meotoiwa.jp/">公式サイト ↗</a><a class="btn-insta btn" target="_blank" rel="noopener" href="https://www.instagram.com/meoto_yokocho/">Instagram ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=伊勢夫婦岩めおと横丁">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>夫婦岩・二見興玉神社</h3>
+<p class="muted">縁結びや夫婦円満、交通安全で知られる神社。沖合に浮かぶ大岩・小岩が注連縄で結ばれたシンボル。</p>
+<div class="meta-info"><div>📍 住所：三重県伊勢市二見町江575</div><div>🌐 緯度経度：34.5088, 136.7892</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://futamiokitama-jinja.or.jp/">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=二見興玉神社">Googleマップ ↗</a></div>
+</div>
+<div class="card">
+<h3>めし処 こさく</h3>
+<p class="muted">二見町にある人気の和食処。地元の新鮮な魚介を使った定食や海鮮料理が味わえる。</p>
+<div class="meta-info"><div>📍 住所：三重県伊勢市二見町荘2021-1</div><div>🌐 緯度経度：34.5022, 136.7725</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://kosaku.net/">公式サイト ↗</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=めし処+こさく+二見">Googleマップ ↗</a></div>
+</div>
+</div>
+</section>
+
+<!-- 宿泊先 -->
+<section id="hotel">
+<div class="section-kicker">STAY</div><h2>宿泊先</h2>
+<div class="card">
+<h3>鳥羽オーシャンリゾート</h3>
+<p class="muted">1日目の宿泊先。鳥羽の海を見渡せる静かなロケーションで快適なひとときを過ごせます。</p>
+<div class="meta-info"><div>📍 住所：三重県鳥羽市安楽島町1075-100</div><div>🌐 緯度経度：34.4690, 136.8580</div></div>
+<div class="btn-group"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=鳥羽オーシャンリゾート">Googleマップ ↗</a></div>
+</div>
+</section>
+
+<!-- メモ -->
+<section id="memo">
+<div class="section-kicker">MEMO</div><h2>メモ・注意事項</h2>
+<div class="card"><h3>妊娠中の食事について</h3><p class="muted">生魚・生ものは避けるなど体調と希望を最優先。ホテルや飲食店での料理の加熱確認・変更依頼をしっかり行う。</p></div>
+<div class="card"><h3>出発前に確認</h3><p class="muted">苔玉体験の予約・所要時間／伊勢神宮周辺・二見の駐車場／帰路の渋滞・SA休憩ポイント。</p></div>
+</section>
+</main>
+
+<footer><div class="footer-title">Have a wonderful trip.</div><p>伊勢・鳥羽 家族旅行 2026</p></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const day1Spots = [
+  {name: "日高工業所 (出発)", lat: 35.6500, lng: 138.5500},
+  {name: "湾岸長島PA", lat: 35.0315, lng: 136.7025},
+  {name: "あそらの茶屋 / 外宮", lat: 34.4875, lng: 136.7036},
+  {name: "伊勢神宮 内宮 / おかげ横丁", lat: 34.4550, lng: 136.7258},
+  {name: "鳥羽オーシャンリゾート", lat: 34.4690, lng: 136.8580}
+];
+
+const day2Spots = [
+  {name: "鳥羽オーシャンリゾート (出発)", lat: 34.4690, lng: 136.8580},
+  {name: "カモメの散歩道", lat: 34.4845, lng: 136.8450},
+  {name: "伊勢夫婦岩めおと横丁・夫婦岩", lat: 34.5085, lng: 136.7876},
+  {name: "めし処 こさく", lat: 34.5022, lng: 136.7725},
+  {name: "御在所SA (SA候補1)", lat: 35.0319, lng: 136.5758},
+  {name: "刈谷ハイウェイオアシス (SA候補2)", lat: 35.0425, lng: 137.0346},
+  {name: "浜名湖SA (SA候補3)", lat: 34.7797, lng: 137.5539},
+  {name: "牧之原SA (SA候補4)", lat: 34.7570, lng: 138.2045},
+  {name: "日高工業所 (到着)", lat: 35.6500, lng: 138.5500}
+];
+
+let map, markerGroup;
+
+function initMap() {
+  map = L.map('map').setView([34.5000, 136.8000], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+  markerGroup = L.layerGroup().addTo(map);
+  renderMarkers(day1Spots);
+}
+
+function renderMarkers(spots) {
+  markerGroup.clearLayers();
+  const bounds = [];
+  spots.forEach(spot => {
+    const marker = L.marker([spot.lat, spot.lng]).addTo(markerGroup);
+    const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`;
+    marker.bindPopup(`<b>${spot.name}</b><br><a href="${navUrl}" target="_blank" style="color:#173b35;font-weight:bold;">ナビを開始 ↗</a>`);
+    bounds.push([spot.lat, spot.lng]);
+  });
+  if(bounds.length > 0) map.fitBounds(bounds, {padding: [30, 30]});
+}
+
+function switchMapDay(day) {
+  document.querySelectorAll('.map-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === day - 1);
+  });
+  if(day === 1) renderMarkers(day1Spots);
+  else renderMarkers(day2Spots);
+}
+
+document.addEventListener('DOMContentLoaded', initMap);
+</script>
+</body>
+</html>
